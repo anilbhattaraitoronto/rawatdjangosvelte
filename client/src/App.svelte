@@ -1,47 +1,32 @@
 <script>
     import { onMount } from "svelte";
+    import { products } from "./store/productStore.js";
     let categories = [];
-    let products = [];
+    let categoryProducts = [];
 
     onMount(() => {
-        fetch("store/api/categories")
-            .then((response) => response.json())
-            .then((data) => {
-                let categoriesData = [...JSON.parse(data)];
-                categoriesData.forEach((item) =>
-                    categories.push({
-                        name: item.fields.name,
-                        slug: item.fields.slug,
-                    })
-                );
-                categories = [...categories];
-                console.log(categories);
-            })
-            .catch((err) => console.log("Error is: ", err));
-
         fetch("store/api/products")
             .then((response) => response.json())
             .then((data) => {
+                console.log("data is ", data);
                 if (data.length > 0) {
-                    products = data;
+                    $products = data[0];
+                    categories = data[1];
+                    console.log(
+                        "Products and categories ",
+                        $products,
+                        categories
+                    );
                 } else {
-                    products = [];
+                    $products = [];
                 }
             })
             .catch((err) => console.log("Error is: ", err));
     });
     function getCategoryProducts(category_slug) {
-        fetch(`store/api/categories/${category_slug}`)
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.length > 0) {
-                    products = data;
-                    console.log(products);
-                } else {
-                    products = [];
-                }
-            })
-            .catch((err) => console.log("error is: ", err));
+        categoryProducts = [
+            ...$products.filter((item) => item.category.slug === category_slug),
+        ];
     }
 </script>
 
@@ -119,19 +104,36 @@
                 <div class="category-buttons">
                     {#each categories as category}
                         <button
-                            on:click|preventDefault={() => getCategoryProducts(category.slug)}
+                            on:click={() => getCategoryProducts(category.slug)}
                             class="category-link">{category.name}</button>
                     {/each}
                 </div>
             {/if}
         </div>
     </nav>
+    <article class="category-product-container">
+        <h2 class="section-title">Category Products</h2>
+        {#if categoryProducts.length > 0}
+            {#each categoryProducts as item (item.id)}
+                <div class="product">
+                    {#if item.image}<img src={item.image} alt="" />{/if}
+                    <h4>{item.category.name}</h4>
+                    <h3>{item.name}</h3>
+                </div>
+            {/each}
+        {:else}
+            <p>Click category Links to see category products</p>
+        {/if}
+    </article>
     <article id="product-container">
         <h2 class="section-title">New Products</h2>
-        {#if products.length > 0}
+        {#if $products}
             <div class="products">
-                {#each products as productItem (productItem.id)}
+                {#each $products as productItem (productItem.id)}
                     <div class="product">
+                        {#if productItem.image}
+                            <img src={productItem.image} alt="" />
+                        {/if}
                         <h4 class="product-category">
                             {productItem.category.name}
                         </h4>
