@@ -69,18 +69,7 @@
     #nav-list-button:hover > .category-buttons {
         transform: scale(1);
     }
-    .category-link {
-        all: unset;
-        padding: 4px 8px;
-        margin: 2px 0;
-        box-shadow: 0 1px 2px gray;
-        font-weight: 300;
-        transition: 300ms all ease-in-out;
-    }
-    .category-link:hover {
-        color: white;
-        background: rgb(6, 90, 116);
-    }
+
     .products {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -106,10 +95,9 @@
             {#if categories.length > 0}
                 <div class="category-buttons">
                     {#each categories as category}
-                        <!-- <button
-                            on:click={() => getCategoryProducts(category.slug)}
-                            class="category-link">{category.name}</button> -->
-                        <CategoryLink  categoryLink={category.name} on:click={()=>getCategoryProducts(category.slug)} />
+                        <CategoryLink
+                            categoryLink={category.name}
+                            on:click={() => getCategoryProducts(category.slug)} />
                     {/each}
                 </div>
             {/if}
