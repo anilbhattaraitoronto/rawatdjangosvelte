@@ -1,8 +1,11 @@
 <script>
     import { onMount } from "svelte";
     import { products } from "./store/productStore.js";
+
+    import CategoryLink from "./components/shared/CategoryLink.svelte";
     let categories = [];
     let categoryProducts = [];
+    let productCategory = "";
 
     onMount(() => {
         fetch("store/api/products")
@@ -21,6 +24,9 @@
             .catch((err) => console.log("Error is: ", err));
     });
     function getCategoryProducts(category_slug) {
+        productCategory = $products.find(
+            (item) => item.category.slug === category_slug
+        );
         categoryProducts = [
             ...$products.filter((item) => item.category.slug === category_slug),
         ];
@@ -100,17 +106,19 @@
             {#if categories.length > 0}
                 <div class="category-buttons">
                     {#each categories as category}
-                        <button
+                        <!-- <button
                             on:click={() => getCategoryProducts(category.slug)}
-                            class="category-link">{category.name}</button>
+                            class="category-link">{category.name}</button> -->
+                        <CategoryLink  categoryLink={category.name} on:click={()=>getCategoryProducts(category.slug)} />
                     {/each}
                 </div>
             {/if}
         </div>
     </nav>
     <article class="category-product-container">
-        <h2 class="section-title">Category Products</h2>
         {#if categoryProducts.length > 0}
+            <h2 class="section-title">{productCategory.category.name}</h2>
+
             {#each categoryProducts as item (item.id)}
                 <div class="product">
                     {#if item.image}<img src={item.image} alt="" />{/if}
