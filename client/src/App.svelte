@@ -4,8 +4,8 @@
     let categories = [];
     let categoryProducts = [];
 
-    onMount(() => {
-        fetch("store/api/products")
+    onMount(async () => {
+        await fetch("store/api/products")
             .then((response) => response.json())
             .then((data) => {
                 console.log("data is ", data);
