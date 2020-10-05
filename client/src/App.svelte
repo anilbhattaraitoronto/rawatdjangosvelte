@@ -21,10 +21,9 @@
             .catch((err) => console.log("Error is: ", err));
     });
     function getCategoryProducts(category_slug) {
-        // categoryProducts = [
-        //     ...$products.filter((item) => item.category.slug === category_slug),
-        // ];
-        console.log("category products");
+        categoryProducts = [
+            ...$products.filter((item) => item.category.slug === category_slug),
+        ];
     }
 </script>
 
