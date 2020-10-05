@@ -3,6 +3,7 @@
     import { products } from "./store/productStore.js";
 
     import CategoryLink from "./components/shared/CategoryLink.svelte";
+    import Product from "./components/shared/Product.svelte";
     let categories = [];
     let categoryProducts = [];
     let productCategory = "";
@@ -75,10 +76,6 @@
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         grid-gap: 4px;
     }
-    .product {
-        padding: 8px;
-        box-shadow: 1px 2px 3px gray;
-    }
 
     @media (min-width: 640px) {
         main {
@@ -108,11 +105,7 @@
             <h2 class="section-title">{productCategory.category.name}</h2>
 
             {#each categoryProducts as item (item.id)}
-                <div class="product">
-                    {#if item.image}<img src={item.image} alt="" />{/if}
-                    <h4>{item.category.name}</h4>
-                    <h3>{item.name}</h3>
-                </div>
+                <Product productItem={item} />
             {/each}
         {:else}
             <p>Click category Links to see category products</p>
@@ -123,16 +116,7 @@
         {#if $products}
             <div class="products">
                 {#each $products as productItem (productItem.id)}
-                    <div class="product">
-                        {#if productItem.image}
-                            <img src={productItem.image} alt="" />
-                        {/if}
-                        <h4 class="product-category">
-                            {productItem.category.name}
-                        </h4>
-                        <h3 class="product-name">{productItem.name}</h3>
-                        <button class="add-to-cart">Add to cart</button>
-                    </div>
+                    <Product {productItem} />
                 {/each}
             </div>
         {:else}
