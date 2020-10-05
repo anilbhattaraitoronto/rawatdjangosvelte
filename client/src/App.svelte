@@ -4,19 +4,16 @@
     let categories = [];
     let categoryProducts = [];
 
-    onMount(async () => {
-        await fetch("store/api/products")
+    onMount(() => {
+        fetch("store/api/products")
             .then((response) => response.json())
             .then((data) => {
                 console.log("data is ", data);
                 if (data.length > 0) {
                     $products = data[0];
                     categories = data[1];
-                    console.log(
-                        "Products and categories ",
-                        $products,
-                        categories
-                    );
+                    console.log("Products ", $products);
+                    console.log("categories", categories);
                 } else {
                     $products = [];
                 }
@@ -24,9 +21,10 @@
             .catch((err) => console.log("Error is: ", err));
     });
     function getCategoryProducts(category_slug) {
-        categoryProducts = [
-            ...$products.filter((item) => item.category.slug === category_slug),
-        ];
+        // categoryProducts = [
+        //     ...$products.filter((item) => item.category.slug === category_slug),
+        // ];
+        console.log("category products");
     }
 </script>
 
