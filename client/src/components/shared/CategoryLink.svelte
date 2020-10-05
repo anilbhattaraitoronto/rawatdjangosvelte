@@ -1,5 +1,5 @@
 <script>
-    export let categoryLink;
+    export let category;
 </script>
 
 <style>
@@ -24,6 +24,13 @@
         color: white;
         background: rgb(6, 90, 116);
     }
+    img {
+        height: 16px;
+        width: 16px;
+        float: left;
+    }
 </style>
 
-<button on:click class="category-link">{categoryLink}</button>
+<button on:click class="category-link">
+    <img src={category.image} alt="" />
+    {category.name}</button>

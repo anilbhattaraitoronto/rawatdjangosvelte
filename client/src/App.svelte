@@ -48,8 +48,9 @@
         background: rgb(6, 90, 116);
         color: white;
     }
-    .nav-link {
+    nav .nav-link {
         padding: 4px 4px 4px 16px;
+        color: white;
     }
     .category-buttons {
         position: absolute;
@@ -76,6 +77,21 @@
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         grid-gap: 4px;
     }
+    .category-image {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        float: left;
+        margin-right: 40px;
+    }
+    .section-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0;
+        background: lightgray;
+        margin: 20px 0;
+    }
 
     @media (min-width: 640px) {
         main {
@@ -93,7 +109,7 @@
                 <div class="category-buttons">
                     {#each categories as category}
                         <CategoryLink
-                            categoryLink={category.name}
+                            {category}
                             on:click={() => getCategoryProducts(category.slug)} />
                     {/each}
                 </div>
@@ -102,11 +118,19 @@
     </nav>
     <article class="category-product-container">
         {#if categoryProducts.length > 0}
-            <h2 class="section-title">{productCategory.category.name}</h2>
-
-            {#each categoryProducts as item (item.id)}
-                <Product productItem={item} />
-            {/each}
+            <h2 class="section-title">
+                {#if productCategory.category.image}
+                    <img
+                        src={productCategory.category.image}
+                        alt=""
+                        class="category-image" />
+                {/if}{productCategory.category.name}
+            </h2>
+            <div class="products">
+                {#each categoryProducts as item (item.id)}
+                    <Product productItem={item} />
+                {/each}
+            </div>
         {:else}
             <p>Click category Links to see category products</p>
         {/if}

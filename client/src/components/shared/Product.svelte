@@ -6,6 +6,17 @@
     .product {
         padding: 8px;
         box-shadow: 1px 2px 3px gray;
+        width: 100%;
+        max-width: 280px;
+        margin: auto;
+    }
+    img {
+        display: block;
+        width: 60%;
+        max-width: 180;
+        height: 240px;
+        margin: auto;
+        object-fit: cover;
     }
 </style>
 

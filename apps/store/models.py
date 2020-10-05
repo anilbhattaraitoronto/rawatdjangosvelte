@@ -9,6 +9,7 @@ class CategoryManager(models.Manager):
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=55)
+    image = models.ImageField(blank=True, null=True, upload_to='categories')
 
     class Meta:
         verbose_name_plural = 'categories'
