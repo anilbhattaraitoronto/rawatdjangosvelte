@@ -30,6 +30,8 @@ class Product(models.Model):
     slug = models.SlugField(max_length=100)
     image = models.ImageField(blank=True, null=True,
                               upload_to='media/products')
+    price = models.FloatField(default=1.99)
+    quantity = models.IntegerField(default=1)
 
     class Meta:
         ordering = ['category', 'name']
