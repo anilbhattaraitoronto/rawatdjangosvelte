@@ -1,5 +1,14 @@
 <script>
-    export let productItem;
+    export let productItem = {
+        item,
+        price: 2.99,
+        qty: 1,
+    };
+    let totalPrice;
+
+    $: totalPrice = (
+        parseFloat(productItem.price.toFixed(2)) * parseInt(productItem.qty)
+    ).toFixed(2);
 </script>
 
 <style>
@@ -43,15 +52,28 @@
         color: rgb(9, 9, 94);
         background: rgb(221, 221, 233);
     }
+    label {
+        display: block;
+    }
+    input {
+        border-radius: 20px;
+        width: 80px;
+    }
 </style>
 
 <div class="product">
     <h3>Cart Product</h3>
-    {#if productItem.image}<img src={productItem.image} alt="" />{/if}
-    <h4 class="product-category">{productItem.category.name}</h4>
-    <h3 class="product-name">{productItem.name}</h3>
-    <label>Update quantity
-        <input type="number" placeholder="quantity" min="1" />
+    {#if productItem.image}<img src={productItem.item.image} alt="" />{/if}
+    <h4 class="product-category">{productItem.item.category.name}</h4>
+    <h3 class="product-name">{productItem.item.name}</h3>
+    <p>{productItem.price}</p>
+    <label>Qty.
+        <input
+            type="number"
+            placeholder="quantity"
+            min="1"
+            bind:value={productItem.qty} />
     </label>
+    <p>{totalPrice}</p>
     <button>Remove Item</button>
 </div>

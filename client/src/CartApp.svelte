@@ -1,7 +1,24 @@
 <script>
+    import { onMount } from "svelte";
     import CartBtn from "./cartComponents/CartBtn.svelte";
-    import { cartProducts } from "./store/productStore.js";
+    import { products, cartProducts } from "./store/productStore.js";
     import CartProduct from "./cartComponents/CartProduct.svelte";
+
+    let price;
+    let qty;
+
+    // onMount(() => {
+    //     fetch("store/api/products")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             if (data.length > 0) {
+    //                 $cartProducts = data[0];
+    //             } else {
+    //                 $cartProducts = [];
+    //             }
+    //         })
+    //         .catch((err) => console.log("Error is: ", err));
+    // });
 </script>
 
 <style>
@@ -17,7 +34,7 @@
 </nav>
 {#if $cartProducts}
     {#each $cartProducts as item}
-        <CartProduct productItem={item} />
+        <CartProduct productItem={{ item, price: 2.99, qty: 1 }} />
     {/each}
 {:else}
     <p>No items in the cart yet</p>
