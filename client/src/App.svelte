@@ -12,12 +12,9 @@
         fetch("store/api/products")
             .then((response) => response.json())
             .then((data) => {
-                console.log("data is ", data);
                 if (data.length > 0) {
                     $products = data[0];
                     categories = data[1];
-                    console.log("Products ", $products);
-                    console.log("categories", categories);
                 } else {
                     $products = [];
                 }
@@ -32,6 +29,20 @@
             ...$products.filter((item) => item.category.slug === category_slug),
         ];
     }
+
+    function addToCart(id) {
+        //Create a writable store called myCart
+        //get product with selected id from $products and add it to $myCart
+        //display $myCart onto the cart container
+        //add quantity field (range or input field and bind the value to quantity)
+        //create derived total for each product
+        //create derived total for the whole cart
+        //create reactive variable so that they adjust as customers adjust quantity of cart items
+        //Checkout button should connect to backend through rest-api
+        //
+        console.log("Added productid to cart", id);
+        console.log(typeof id);
+    }
 </script>
 
 <style>
@@ -43,20 +54,20 @@
     nav {
         position: relative;
         display: flex;
-
         justify-content: end;
         justify-content: flex-end;
         align-items: center;
-        background: rgb(6, 90, 116);
+        background: rgb(7, 7, 197);
         color: white;
+        font-size: 18px;
     }
     nav .nav-link {
-        padding: 4px 4px 4px 16px;
+        padding: 8px 4px 8px 16px;
         color: white;
     }
     .category-buttons {
         position: absolute;
-        top: 28px;
+        top: 32px;
         right: 0px;
         display: flex;
         flex-direction: column;
@@ -64,7 +75,7 @@
         transform: scale(0);
         transition: 300ms all ease-in-out;
         background: white;
-        color: rgb(6, 90, 116);
+        color: rgb(7, 7, 197);
     }
     #nav-list-button {
         display: block;
@@ -77,22 +88,31 @@
     .products {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        grid-gap: 4px;
+        grid-gap: 20px;
+        justify-items: center;
+        align-items: center;
     }
     .category-image {
-        width: 40px;
+        display: inline;
+        width: auto;
         height: 40px;
         object-fit: cover;
-        float: left;
+        float: right;
         margin-right: 40px;
+        border-radius: 3px;
     }
     .section-title {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px 0;
-        background: lightgray;
+        padding: 8px 0;
+        background: rgb(252, 252, 250);
         margin: 20px 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        word-spacing: 8px;
+        font-size: 1.3em;
+        box-shadow: 1px 2px 2px rgb(93, 95, 97);
     }
 
     @media (min-width: 640px) {
@@ -130,7 +150,9 @@
             </h2>
             <div class="products">
                 {#each categoryProducts as item (item.id)}
-                    <Product productItem={item} />
+                    <Product
+                        productItem={item}
+                        on:click={() => addToCart(item.id)} />
                 {/each}
             </div>
         {:else}
@@ -142,7 +164,9 @@
         {#if $products}
             <div class="products">
                 {#each $products as productItem (productItem.id)}
-                    <Product {productItem} />
+                    <Product
+                        {productItem}
+                        on:click={() => addToCart(productItem.id)} />
                 {/each}
             </div>
         {:else}
