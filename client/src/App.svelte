@@ -1,12 +1,13 @@
 <script>
     import { onMount } from "svelte";
-    import { products } from "./store/productStore.js";
+    import { products, cartProducts } from "./store/productStore.js";
 
     import CategoryLink from "./components/shared/CategoryLink.svelte";
     import Product from "./components/shared/Product.svelte";
     let categories = [];
     let categoryProducts = [];
     let productCategory = "";
+    let cartProduct = {};
 
     onMount(() => {
         fetch("store/api/products")
@@ -42,6 +43,16 @@
         //
         console.log("Added productid to cart", id);
         console.log(typeof id);
+        cartProduct = $products.find((item) => item.id === id);
+        // console.log(cartProduct);
+        // $cartProducts = [cartProduct];
+
+        // console.log(cartProducts);
+        if ($cartProducts) {
+            $cartProducts = [cartProduct, ...$cartProducts];
+        } else {
+            $cartProducts = [cartProduct];
+        }
     }
 </script>
 
