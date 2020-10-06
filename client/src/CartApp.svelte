@@ -5,7 +5,7 @@
     import CartProduct from "./cartComponents/CartProduct.svelte";
 
     let price;
-    let qty;
+    let qty = 1;
 
     // onMount(() => {
     //     fetch("store/api/products")
@@ -19,6 +19,10 @@
     //         })
     //         .catch((err) => console.log("Error is: ", err));
     // });
+
+    function removeItem(id) {
+        $cartProducts = $cartProducts.filter((item) => item.id !== id);
+    }
 </script>
 
 <style>
@@ -34,9 +38,10 @@
 </nav>
 {#if $cartProducts}
     {#each $cartProducts as item}
-        <CartProduct productItem={{ item, price: 2.99, qty: 1 }} />
+        <CartProduct
+            productItem={{ item, price: 2.99, qty: 1 }}
+            on:click={() => removeItem(item.id)} />
     {/each}
 {:else}
     <p>No items in the cart yet</p>
 {/if}
-<CartBtn />

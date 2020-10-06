@@ -12,6 +12,11 @@
         line-height: 1.7;
         border-radius: 8px;
         text-align: center;
+        cursor: pointer;
+        transition: 300ms all ease-in-out;
+    }
+    .product:hover {
+        box-shadow: 1px 2px 4px gray;
     }
     img {
         display: block;
@@ -45,9 +50,9 @@
     }
 </style>
 
-<div class="product">
+<div class="product" on:click>
     {#if productItem.image}<img src={productItem.image} alt="" />{/if}
     <h4 class="product-category">{productItem.category.name}</h4>
     <h3 class="product-name">{productItem.name}</h3>
-    <button class="add-to-cart" on:click id={productItem.id}>Add to cart</button>
+    <button class="add-to-cart" id={productItem.id}>Add to cart</button>
 </div>

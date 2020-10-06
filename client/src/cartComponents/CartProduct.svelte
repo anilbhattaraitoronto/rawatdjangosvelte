@@ -2,7 +2,7 @@
     export let productItem = {
         item,
         price: 2.99,
-        qty: 1,
+        qty: null,
     };
     let totalPrice;
 
@@ -62,11 +62,10 @@
 </style>
 
 <div class="product">
-    <h3>Cart Product</h3>
-    {#if productItem.image}<img src={productItem.item.image} alt="" />{/if}
+    {#if productItem.item.image}<img src={productItem.item.image} alt="" />{/if}
     <h4 class="product-category">{productItem.item.category.name}</h4>
     <h3 class="product-name">{productItem.item.name}</h3>
-    <p>{productItem.price}</p>
+    <p>Price: ${productItem.price}</p>
     <label>Qty.
         <input
             type="number"
@@ -74,6 +73,6 @@
             min="1"
             bind:value={productItem.qty} />
     </label>
-    <p>{totalPrice}</p>
-    <button>Remove Item</button>
+    <p>Total: ${totalPrice}</p>
+    <button on:click id={productItem.item.id}>Remove Item</button>
 </div>
