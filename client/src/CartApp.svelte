@@ -43,7 +43,7 @@
     <article class="products">
         {#each $cartProducts as item}
             <CartProduct
-                productItem={{ item, price: 2.99, qty }}
+                productItem={item}
                 on:click={() => removeItem(item.id)} />
         {/each}
     </article>

@@ -1,13 +1,7 @@
 <script>
-    export let productItem = {
-        item,
-        price: 2.99,
-        qty: null,
-    };
-    let totalPrice;
-
-    $: totalPrice = (
-        parseFloat(productItem.price.toFixed(2)) * parseInt(productItem.qty)
+    export let productItem;
+    $: totalPrice = parseFloat(
+        productItem.price * productItem.quantity
     ).toFixed(2);
 </script>
 
@@ -63,17 +57,17 @@
 </style>
 
 <div class="product">
-    {#if productItem.item.image}<img src={productItem.item.image} alt="" />{/if}
-    <h4 class="product-category">{productItem.item.category.name}</h4>
-    <h3 class="product-name">{productItem.item.name}</h3>
+    {#if productItem.image}<img src={productItem.image} alt="" />{/if}
+    <h4 class="product-category">{productItem.category.name}</h4>
+    <h3 class="product-name">{productItem.name}</h3>
     <p>Price: ${productItem.price}</p>
     <label>Qty.
         <input
             type="number"
             placeholder="quantity"
             min="1"
-            bind:value={productItem.qty} />
+            bind:value={productItem.quantity} />
     </label>
     <p>Total: ${totalPrice}</p>
-    <button on:click id={productItem.item.id}>Remove?</button>
+    <button on:click id={productItem.id}>Remove?</button>
 </div>

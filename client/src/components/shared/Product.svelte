@@ -55,5 +55,7 @@
     {#if productItem.image}<img src={productItem.image} alt="" />{/if}
     <h4 class="product-category">{productItem.category.name}</h4>
     <h3 class="product-name">{productItem.name}</h3>
+    <p>Price: {productItem.price}</p>
+    <p>Qty. {productItem.quantity}</p>
     <button class="add-to-cart" id={productItem.id}>Add to cart</button>
 </div>
