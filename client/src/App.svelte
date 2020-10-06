@@ -43,7 +43,7 @@
     nav {
         position: relative;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         align-items: center;
         background: rgb(6, 90, 116);
         color: white;
