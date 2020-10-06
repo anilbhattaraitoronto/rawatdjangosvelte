@@ -38,15 +38,16 @@
         width: 100%;
         margin: 8px auto;
         text-align: center;
-        background: rgb(7, 7, 197);
-        color: white;
+        color: yellow;
+        background: rgb(106, 106, 156);
+
         padding: 4px 0;
         transition: 450ms all ease-in-out;
         border-radius: 20px;
     }
     button:hover {
-        color: yellow;
-        background: rgb(60, 60, 221);
+        background: rgb(223, 223, 240);
+        color: rgb(204, 143, 12);
     }
 </style>
 

@@ -27,21 +27,26 @@
 
 <style>
     .section-title {
-        text-align: center;
+        color: rgb(9, 9, 94);
+        background: rgb(221, 221, 233);
+        font-size: 18px;
+        padding: 8px 4px 8px 16px;
         letter-spacing: 2px;
         text-transform: uppercase;
+        text-align: center;
     }
 </style>
 
-<nav class="cart-nav">
-    <h2 class="section-title">Cart</h2>
-</nav>
+<h2 class="section-title">Cart</h2>
+
 {#if $cartProducts}
-    {#each $cartProducts as item}
-        <CartProduct
-            productItem={{ item, price: 2.99, qty: 1 }}
-            on:click={() => removeItem(item.id)} />
-    {/each}
+    <article class="products">
+        {#each $cartProducts as item}
+            <CartProduct
+                productItem={{ item, price: 2.99, qty }}
+                on:click={() => removeItem(item.id)} />
+        {/each}
+    </article>
 {:else}
     <p>No items in the cart yet</p>
 {/if}

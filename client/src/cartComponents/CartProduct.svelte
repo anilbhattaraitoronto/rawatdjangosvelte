@@ -17,15 +17,16 @@
         box-shadow: 1px 1px 2px lightgray;
         width: 100%;
         max-width: 280px;
-        margin: auto;
+        margin: 8px auto;
         line-height: 1.7;
         border-radius: 8px;
         text-align: center;
+        background: rgb(236, 237, 238);
     }
     img {
         display: block;
         width: auto;
-        height: 120px;
+        height: 80px;
         padding: 8px;
         margin: auto;
         object-fit: cover;
@@ -42,9 +43,9 @@
         width: 100%;
         margin: 8px auto;
         text-align: center;
-        background: rgb(7, 7, 197);
-        color: white;
-        padding: 4px 0;
+        background: rgb(223, 223, 240);
+        color: rgb(204, 143, 12);
+        padding: 2px 0;
         transition: 450ms all ease-in-out;
         border-radius: 20px;
     }
@@ -74,5 +75,5 @@
             bind:value={productItem.qty} />
     </label>
     <p>Total: ${totalPrice}</p>
-    <button on:click id={productItem.item.id}>Remove Item</button>
+    <button on:click id={productItem.item.id}>Remove?</button>
 </div>

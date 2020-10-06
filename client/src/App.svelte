@@ -68,14 +68,14 @@
         justify-content: end;
         justify-content: flex-end;
         align-items: center;
-        background: rgb(7, 7, 197);
-        color: white;
+        color: rgb(9, 9, 94);
+        background: rgb(221, 221, 233);
         font-size: 18px;
-    }
-    nav .nav-link {
         padding: 8px 4px 8px 16px;
-        color: white;
     }
+    /* nav .nav-link {
+        color: white;
+    } */
     .category-buttons {
         position: absolute;
         top: 32px;
@@ -86,7 +86,7 @@
         transform: scale(0);
         transition: 300ms all ease-in-out;
         background: white;
-        color: rgb(7, 7, 197);
+        color: rgb(9, 9, 94);
     }
     #nav-list-button {
         display: block;
@@ -102,6 +102,7 @@
         grid-gap: 20px;
         justify-items: center;
         align-items: center;
+        padding: 20px;
     }
     .category-image {
         display: inline;
@@ -135,7 +136,6 @@
 
 <main>
     <nav>
-        <a href="#" class="nav-link">Cart</a>
         <div id="nav-list-button">
             <span class="nav-link">Categories ▾</span>
             {#if categories.length > 0}

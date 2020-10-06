@@ -22,7 +22,7 @@
     }
     .category-link:hover {
         color: white;
-        background: rgb(7, 7, 197);
+        background: rgb(9, 9, 94);
     }
     img {
         height: 16px;
