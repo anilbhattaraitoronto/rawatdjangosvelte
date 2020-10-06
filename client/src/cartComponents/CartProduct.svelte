@@ -51,7 +51,7 @@
     <h4 class="product-category">{productItem.category.name}</h4>
     <h3 class="product-name">{productItem.name}</h3>
     <label>Update quantity
-        <input type="number" placeholder="quantity" />
+        <input type="number" placeholder="quantity" min="1" />
     </label>
     <button>Remove Item</button>
 </div>
