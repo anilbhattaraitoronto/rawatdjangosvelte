@@ -58,17 +58,20 @@
 
 <div class="product">
     {#if productItem.image}<img src={productItem.image} alt="" />{/if}
-    <h4 class="product-category">{productItem.category.name}</h4>
-    <h3 class="product-name">{productItem.name}</h3>
-    <p>Price: ${productItem.price}</p>
-    <label>Qty.
-        <input
-            type="number"
-            placeholder="quantity"
-            min="1"
-            bind:value={productItem.quantity}
-            on:change />
-    </label>
-    <p>Total: ${totalPrice}</p>
+    <div class="content">
+        <h4 class="product-category">{productItem.category.name}</h4>
+        <h3 class="product-name">{productItem.name}</h3>
+        <p>Price: ${productItem.price}</p>
+        <label>Qty.
+            <input
+                type="number"
+                placeholder="quantity"
+                min="1"
+                bind:value={productItem.quantity}
+                on:change />
+        </label>
+        <p>Total: ${totalPrice}</p>
+    </div>
+
     <button on:click id={productItem.id}>Remove?</button>
 </div>

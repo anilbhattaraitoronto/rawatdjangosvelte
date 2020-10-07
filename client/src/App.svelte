@@ -81,9 +81,6 @@
         font-size: 18px;
         padding: 8px 4px 8px 16px;
     }
-    /* nav .nav-link {
-        color: white;
-    } */
     .category-buttons {
         position: absolute;
         top: 32px;
@@ -134,7 +131,16 @@
         font-size: 1.3em;
         box-shadow: 1px 2px 2px rgb(93, 95, 97);
     }
-
+    .nav-cart-detail {
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: left;
+    }
+    .inCart {
+        color: darkgreen;
+    }
     @media (min-width: 640px) {
         main {
             max-width: none;
@@ -144,6 +150,11 @@
 
 <main>
     <nav>
+        <span class="nav-cart-detail ">
+            <b>CART:</b>
+            <strong class="{$cartProducts.length > 0 ? 'inCart' : ''} ">
+                $
+                {$totalCartPrice.toFixed(2)}</strong></span>
         <div id="nav-list-button">
             <span class="nav-link">Categories ▾</span>
             {#if categories.length > 0}

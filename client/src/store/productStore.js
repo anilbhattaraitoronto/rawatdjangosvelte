@@ -1,5 +1,4 @@
 import { writable, derived } from "svelte/store";
-let grandTotal;
 
 export const products = writable([]);
 export const cartProducts = writable([]);

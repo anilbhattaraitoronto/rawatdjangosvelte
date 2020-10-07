@@ -9,11 +9,6 @@
     } from "./store/productStore.js";
     import CartProduct from "./cartComponents/CartProduct.svelte";
 
-    let productQuantity = 1;
-
-    console.log("Cart Items are: ", $cartProducts);
-    console.log(totalCartQuantity);
-
     // onMount(() => {
     //     fetch("store/api/products")
     //         .then((response) => response.json())
@@ -49,6 +44,9 @@
         text-transform: uppercase;
         text-align: center;
     }
+    .section-title.inCart {
+        color: darkgreen;
+    }
     .checkout-button {
         all: unset;
         cursor: pointer;
@@ -69,7 +67,10 @@
     }
 </style>
 
-<h2 class="section-title">Cart $ {$totalCartPrice.toFixed(2)}</h2>
+<h2 class="section-title {$cartProducts.length > 0 ? 'inCart' : ''} ">
+    Cart $
+    {$totalCartPrice.toFixed(2)}
+</h2>
 
 {#if $cartProducts.length > 0}
     <article class="products">
