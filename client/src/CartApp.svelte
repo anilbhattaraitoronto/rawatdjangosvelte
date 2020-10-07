@@ -82,7 +82,7 @@
     </article>
     <div class="cart-total-container">
         <p>Number of order items:{$totalCartQuantity}</p>
-        <p>Total Cart Price: $ {$totalCartPrice}</p>
+        <p>Total Cart Price: $ {$totalCartPrice.toFixed(2)}</p>
     </div>
     <div class="checkout-container">
         <button class="checkout-button">Checkout</button>
