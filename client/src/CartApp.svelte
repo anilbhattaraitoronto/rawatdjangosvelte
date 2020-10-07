@@ -9,7 +9,7 @@
     } from "./store/productStore.js";
     import CartProduct from "./cartComponents/CartProduct.svelte";
 
-    let grandTotal;
+    let productQuantity = 1;
 
     console.log("Cart Items are: ", $cartProducts);
     console.log(totalCartQuantity);
@@ -33,6 +33,9 @@
     }
     function updateQuantity(id) {
         console.log("id of updated quantity", id);
+        //find the object
+        let updatedProduct = $cartProducts.find((item) => item.id === id);
+        $cartProducts = $cartProducts;
     }
 </script>
 
@@ -70,7 +73,7 @@
 
 {#if $cartProducts.length > 0}
     <article class="products">
-        {#each $cartProducts as item (item.id)}
+        {#each $cartProducts as item}
             <CartProduct
                 productItem={item}
                 on:click={() => removeItem(item.id)}
