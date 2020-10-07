@@ -69,7 +69,7 @@
     }
 </style>
 
-<h2 class="section-title">Cart</h2>
+<h2 class="section-title">Cart $ {$totalCartPrice.toFixed(2)}</h2>
 
 {#if $cartProducts.length > 0}
     <article class="products">
