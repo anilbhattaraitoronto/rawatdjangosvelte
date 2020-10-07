@@ -52,7 +52,7 @@
     }
     input {
         border-radius: 20px;
-        width: 80px;
+        width: 60px;
     }
 </style>
 
@@ -66,7 +66,8 @@
             type="number"
             placeholder="quantity"
             min="1"
-            bind:value={productItem.quantity} />
+            bind:value={productItem.quantity}
+            on:change />
     </label>
     <p>Total: ${totalPrice}</p>
     <button on:click id={productItem.id}>Remove?</button>

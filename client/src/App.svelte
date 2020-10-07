@@ -1,6 +1,11 @@
 <script>
     import { onMount } from "svelte";
-    import { products, cartProducts } from "./store/productStore.js";
+    import {
+        products,
+        cartProducts,
+        totalCartQuantity,
+        totalCartPrice,
+    } from "./store/productStore.js";
 
     import CategoryLink from "./components/shared/CategoryLink.svelte";
     import Product from "./components/shared/Product.svelte";
@@ -10,6 +15,7 @@
     let cartProduct = {};
 
     onMount(() => {
+        console.log("cart price is", $totalCartPrice);
         fetch("store/api/products")
             .then((response) => response.json())
             .then((data) => {
@@ -48,11 +54,13 @@
         // $cartProducts = [cartProduct];
 
         // console.log(cartProducts);
-        if ($cartProducts) {
+        if ($cartProducts.length > 0) {
             $cartProducts = [cartProduct, ...$cartProducts];
         } else {
             $cartProducts = [cartProduct];
         }
+        console.log("total cart price is really", $totalCartPrice);
+        //adjust the total number of products and total cart price as products are added
     }
 </script>
 
