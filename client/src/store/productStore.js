@@ -11,3 +11,6 @@ export const totalCartPrice = derived(
   ($cartProducts) =>
     $cartProducts.reduce((acc, t) => acc + t.price * t.quantity, 0),
 );
+
+export const categoryProducts = writable([])
+export const categories = writable([])

@@ -1,27 +1,51 @@
 <script>
     import { onMount } from "svelte";
+    import Router from "svelte-spa-router";
     import {
         products,
+        categories,
+        categoryProducts,
         cartProducts,
         totalCartQuantity,
         totalCartPrice,
     } from "./store/productStore.js";
 
+    import Header from "./components/ui/Header.svelte";
+
+    import Home from "./components/pages/Home.svelte";
+    import Search from "./components/pages/Search.svelte";
+    import Category from "./components/pages/Category.svelte";
+    import ProductDetail from "./components/pages/ProductDetail.svelte";
+
     import CategoryLink from "./components/shared/CategoryLink.svelte";
     import Product from "./components/shared/Product.svelte";
-    let categories = [];
-    let categoryProducts = [];
+    import CartProduct from "./cartComponents/CartProduct.svelte";
+
+    const routes = {
+        "/": Home,
+        "/search": Search,
+        "/categories/:category": Category,
+        "/detail": ProductDetail,
+    };
+    //toggle menu in mobile size
+    let is_active = false;
+
+    function toggleMenu() {
+        is_active == false ? (is_active = true) : (is_active = false);
+    }
+
+    // let categories = [];
+
     let productCategory = "";
     let cartProduct = {};
 
     onMount(() => {
-        console.log("cart price is", $totalCartPrice);
         fetch("store/api/products")
             .then((response) => response.json())
             .then((data) => {
                 if (data.length > 0) {
                     $products = data[0];
-                    categories = data[1];
+                    $categories = data[1];
                 } else {
                     $products = [];
                 }
@@ -29,38 +53,21 @@
             .catch((err) => console.log("Error is: ", err));
     });
     function getCategoryProducts(category_slug) {
-        productCategory = $products.find(
-            (item) => item.category.slug === category_slug
-        );
-        categoryProducts = [
-            ...$products.filter((item) => item.category.slug === category_slug),
-        ];
+        products.subscribe((data) => {
+            $categoryProducts = data.filter(
+                (item) => item.category.slug == category_slug
+            );
+        });
+        is_active == false ? (is_active = true) : (is_active = false);
     }
 
-    function addToCart(id) {
-        //Create a writable store called myCart
-        //get product with selected id from $products and add it to $myCart
-        //display $myCart onto the cart container
-        //add quantity field (range or input field and bind the value to quantity)
-        //create derived total for each product
-        //create derived total for the whole cart
-        //create reactive variable so that they adjust as customers adjust quantity of cart items
-        //Checkout button should connect to backend through rest-api
-        //
-        console.log("Added productid to cart", id);
-        console.log(typeof id);
-        cartProduct = $products.find((item) => item.id === id);
-        // console.log(cartProduct);
-        // $cartProducts = [cartProduct];
-
-        // console.log(cartProducts);
-        if ($cartProducts.length > 0) {
-            $cartProducts = [cartProduct, ...$cartProducts];
-        } else {
-            $cartProducts = [cartProduct];
-        }
-        console.log("total cart price is really", $totalCartPrice);
-        //adjust the total number of products and total cart price as products are added
+    function removeItem(id) {
+        $cartProducts = $cartProducts.filter((item) => item.id !== id);
+    }
+    function updateQuantity(id) {
+        //find the object
+        let updatedProduct = $cartProducts.find((item) => item.id === id);
+        $cartProducts = $cartProducts;
     }
 </script>
 
@@ -70,137 +77,93 @@
         margin: auto;
     }
 
-    nav {
-        position: relative;
-        display: flex;
-        justify-content: end;
-        justify-content: flex-end;
-        align-items: center;
-        color: rgb(9, 9, 94);
-        background: rgb(221, 221, 233);
-        font-size: 18px;
-        padding: 8px 4px 8px 16px;
-    }
-    .category-buttons {
-        position: absolute;
-        top: 32px;
-        right: 0px;
-        display: flex;
-        flex-direction: column;
-        text-align: right;
-        transform: scale(0);
-        transition: 300ms all ease-in-out;
-        background: white;
-        color: rgb(9, 9, 94);
-    }
-    #nav-list-button {
-        display: block;
-        cursor: pointer;
-    }
-    #nav-list-button:hover > .category-buttons {
-        transform: scale(1);
-    }
-
-    .products {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        grid-gap: 20px;
-        justify-items: center;
-        align-items: center;
-        padding: 20px;
-    }
-    .category-image {
-        display: inline;
-        width: auto;
-        height: 40px;
-        object-fit: cover;
-        float: right;
-        margin-right: 40px;
-        border-radius: 3px;
-    }
-    .section-title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 8px 0;
-        background: rgb(252, 252, 250);
-        margin: 20px 0;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        word-spacing: 8px;
-        font-size: 1.3em;
-        box-shadow: 1px 2px 2px rgb(93, 95, 97);
-    }
-    .nav-cart-detail {
-        position: absolute;
-        left: 4px;
-        top: 50%;
-        transform: translateY(-50%);
-        text-align: left;
-    }
     .inCart {
         color: darkgreen;
     }
-    @media (min-width: 640px) {
-        main {
-            max-width: none;
-        }
-    }
 </style>
 
-<main>
-    <nav>
-        <span class="nav-cart-detail ">
-            <b>CART:</b>
-            <strong class="{$cartProducts.length > 0 ? 'inCart' : ''} ">
-                $
-                {$totalCartPrice.toFixed(2)}</strong></span>
-        <div id="nav-list-button">
-            <span class="nav-link">Categories ▾</span>
-            {#if categories.length > 0}
-                <div class="category-buttons">
-                    {#each categories as category}
-                        <CategoryLink
-                            {category}
-                            on:click={() => getCategoryProducts(category.slug)} />
-                    {/each}
-                </div>
-            {/if}
+<nav class="navbar container is-fixed-top is-info p-2">
+    <div class="navbar-brand">
+        <a href="#/" class="navbar-item">
+            <img src="/static/rawat_logo.png" alt="" />
+        </a>
+        <span
+            class="navbar-burger burger {is_active == true ? 'is-active' : ''}"
+            on:click={toggleMenu}>
+            <span />
+            <span />
+            <span />
+        </span>
+    </div>
+    <div class="navbar-menu {is_active == true ? 'is-active' : ''}">
+        <div class="navbar-end">
+            <a href="#/" class="navbar-item">Home</a>
+            <a href="#/search" class="navbar-item">Search</a>
+            <span class="navbar-item ">
+                Cart:
+                <strong class="{$cartProducts.length > 0 ? 'inCart' : ''} ">
+                    $
+                    {$totalCartPrice.toFixed(2)}</strong></span>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <span class="navbar-link">Categories </span>
+                {#if $categories.length > 0}
+                    <div class="navbar-dropdown">
+                        {#each $categories as category}
+                            <a
+                                href="#/categories/{category.slug}"
+                                id={category.slug}
+                                on:click={() => getCategoryProducts(category.slug)}
+                                class=" navbar-item button is-small mt-1"><img
+                                    src={category.image}
+                                    alt=""
+                                    width="16"
+                                    height="16" />
+                                {category.name}</a>
+                        {/each}
+                    </div>
+                {/if}
+            </div>
         </div>
-    </nav>
-    <article class="category-product-container">
-        {#if categoryProducts.length > 0}
-            <h2 class="section-title">
-                {#if productCategory.category.image}
-                    <img
-                        src={productCategory.category.image}
-                        alt=""
-                        class="category-image" />
-                {/if}{productCategory.category.name}
+    </div>
+</nav>
+
+<main class="section container">
+    <div class="columns">
+        <!-- BEGIN page column -->
+        <div class="column">
+            <Router {routes} />
+        </div>
+        <!-- END page column -->
+        <!-- BEGIN - Cart column -->
+        <article class=" column is-one-quarter">
+            <h2
+                class="title has-text-centered {$cartProducts.length > 0 ? 'inCart' : ''} ">
+                Cart $
+                {$totalCartPrice.toFixed(2)}
             </h2>
-            <div class="products">
-                {#each categoryProducts as item (item.id)}
-                    <Product
-                        productItem={item}
-                        on:click={() => addToCart(item.id)} />
-                {/each}
-            </div>
-        {:else}
-            <p>Click category Links to see category products</p>
-        {/if}
-    </article>
-    <article id="product-container">
-        <h2 class="section-title">New Products</h2>
-        {#if $products}
-            <div class="products">
-                {#each $products as productItem (productItem.id)}
-                    <Product
-                        {productItem}
-                        on:click={() => addToCart(productItem.id)} />
-                {/each}
-            </div>
-        {:else}
-            <p>No products yet...</p>
-        {/if}
-    </article>
+
+            {#if $cartProducts.length > 0}
+                <article class="container is-flex is-flex-direction-column ">
+                    {#each $cartProducts as item}
+                        <CartProduct
+                            productItem={item}
+                            on:click={() => removeItem(item.id)}
+                            on:change={() => updateQuantity(item.id)} />
+                    {/each}
+                </article>
+                <div class="cart-total-container">
+                    <p>Number of order items:{$totalCartQuantity}</p>
+                    <p>Total Cart Price: $ {$totalCartPrice.toFixed(2)}</p>
+                </div>
+                <div class="checkout-container">
+                    <button
+                        class="button is-rounded is-primary">Checkout</button>
+                </div>
+            {:else}
+                <p>No items in the cart yet</p>
+            {/if}
+        </article>
+        <!-- End of card column -->
+    </div>
+    <!-- End of app columns container -->
 </main>

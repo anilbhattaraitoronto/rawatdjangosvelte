@@ -77,14 +77,16 @@ button:focus {
 }
 
 header{
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgb(106, 106, 156);
+    background: rgb(189, 189, 216);
     color: white;
     padding: 20px;
     margin: 2px auto;
 }
+
 #main-content{
     display: grid;
     grid-template-columns: auto 220px;
@@ -102,15 +104,5 @@ header{
 }
 
 
-footer{
-    width: 100%;
-    margin: auto;
-    padding: 8px 0;
-    text-align: center;
-}
 
-@media (max-width: 768px){
-    #main-content{
-        grid-template-columns: 1fr;
-    }
-}
+

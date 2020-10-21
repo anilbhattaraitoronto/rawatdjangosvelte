@@ -7,22 +7,20 @@
 
 <style>
     .product {
-        padding: 8px;
+        /* padding: 8px; */
         box-shadow: 1px 1px 2px lightgray;
         width: 100%;
         max-width: 280px;
-        margin: 8px auto;
-        line-height: 1.7;
-        border-radius: 8px;
+        margin: auto;
         text-align: center;
         background: rgb(236, 237, 238);
     }
     img {
-        display: block;
+        /* display: block;
         width: auto;
         height: 80px;
         padding: 8px;
-        margin: auto;
+        margin: auto; */
         object-fit: cover;
     }
     .product-category {
@@ -30,7 +28,7 @@
         font-weight: 400;
         letter-spacing: 1px;
     }
-    button {
+    /* button {
         all: unset;
         cursor: pointer;
         display: block;
@@ -46,7 +44,7 @@
     button:hover {
         color: rgb(9, 9, 94);
         background: rgb(221, 221, 233);
-    }
+    } */
     label {
         display: block;
     }
@@ -56,14 +54,22 @@
     }
 </style>
 
-<div class="product">
-    {#if productItem.image}<img src={productItem.image} alt="" />{/if}
-    <div class="content">
+<div class=" card mb-1">
+    {#if productItem.image}
+        <div class="card-image">
+            <figure class="image is-4by3">
+                <img src={productItem.image} alt="" width="auto" height="60" />
+            </figure>
+        </div>
+    {/if}
+
+    <div class="card-content">
         <h4 class="product-category">{productItem.category.name}</h4>
         <h3 class="product-name">{productItem.name}</h3>
         <p>Price: ${productItem.price}</p>
         <label>Qty.
             <input
+                class="input"
                 type="number"
                 placeholder="quantity"
                 min="1"
@@ -73,5 +79,8 @@
         <p>Total: ${totalPrice}</p>
     </div>
 
-    <button on:click id={productItem.id}>Remove?</button>
+    <button
+        on:click
+        id={productItem.id}
+        class="button is-small is-warning">Remove?</button>
 </div>

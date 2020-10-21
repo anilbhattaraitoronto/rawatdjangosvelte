@@ -27,10 +27,19 @@
     img {
         height: 16px;
         width: 16px;
-        float: left;
     }
 </style>
 
-<button on:click class="category-link">
+<!-- <button on:click class="category-link">
     <img src={category.image} alt="" />
-    {category.name}</button>
+    {category.name}</button> -->
+
+<a
+    href="#/categories/{category.slug}"
+    on:click
+    class="button is-link is-small mt-1"><img
+        src={category.image}
+        alt=""
+        width="16"
+        height="16" />
+    {category.name}</a>
